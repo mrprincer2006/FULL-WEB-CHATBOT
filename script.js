@@ -609,23 +609,41 @@ class ChatBot {
     setupVisualViewport() {
         if (!window.visualViewport) return;
 
+        const appWrapper = document.querySelector('.app-wrapper');
         const container = document.querySelector('.chat-container');
 
         const handleResize = () => {
-            if (window.innerWidth <= 640) {
-                const height = window.visualViewport.height;
-                container.style.height = `${height}px`;
+            const viewport = window.visualViewport;
 
-                // Offset for fixed header/footer if necessary
+            // Log for debugging if needed (can be removed later)
+            // console.log(`Viewport height: ${viewport.height}, innerHeight: ${window.innerHeight}`);
+
+            if (window.innerWidth <= 768) {
+                // Adjust wrapper height to match visual viewport
+                // This prevents the header from being pushed off-screen
+                appWrapper.style.height = `${viewport.height}px`;
+
+                // Ensure we are at the top of the actual page
                 window.scrollTo(0, 0);
+
+                // Scroll to the latest message
                 this.scrollToBottom();
             } else {
-                container.style.height = ''; // Reset for desktop
+                appWrapper.style.height = '';
             }
         };
 
         window.visualViewport.addEventListener('resize', handleResize);
         window.visualViewport.addEventListener('scroll', handleResize);
+
+        // Also handle focus/blur as backup
+        this.messageInput.addEventListener('focus', () => {
+            setTimeout(handleResize, 300);
+        });
+
+        this.messageInput.addEventListener('blur', () => {
+            setTimeout(handleResize, 100);
+        });
     }
 
     // --- UI Logic ---

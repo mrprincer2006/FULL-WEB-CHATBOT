@@ -108,6 +108,8 @@ class ChatBot {
         this.loadTheme();
         this.autoResizeTextarea();
         this.resetReminder();
+        this.initMobileHandling();
+        this.setupVisualViewport();
     }
 
     cacheElements() {
@@ -586,6 +588,44 @@ class ChatBot {
                 this.addMessage(this.getTransitionPhrase('fallback'), 'bot');
             }
         }, this.inactivityTimeout);
+    }
+
+    // --- Mobile Layout Fixes ---
+
+    initMobileHandling() {
+        // Prevent background scrolling on mobile
+        if (window.innerWidth <= 640) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        }
+
+        this.messageInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                this.scrollToBottom();
+            }, 300);
+        });
+    }
+
+    setupVisualViewport() {
+        if (!window.visualViewport) return;
+
+        const container = document.querySelector('.chat-container');
+
+        const handleResize = () => {
+            if (window.innerWidth <= 640) {
+                const height = window.visualViewport.height;
+                container.style.height = `${height}px`;
+
+                // Offset for fixed header/footer if necessary
+                window.scrollTo(0, 0);
+                this.scrollToBottom();
+            } else {
+                container.style.height = ''; // Reset for desktop
+            }
+        };
+
+        window.visualViewport.addEventListener('resize', handleResize);
+        window.visualViewport.addEventListener('scroll', handleResize);
     }
 
     // --- UI Logic ---

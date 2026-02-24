@@ -449,23 +449,68 @@ body {
 @media (max-width: 640px) {
     body {
         padding: 0;
+        align-items: flex-start;
     }
 
     .chat-container {
-        height: 100vh;
-        max-height: 100vh;
+        height: 100dvh;
+        max-height: 100dvh;
+        max-width: none;
         border-radius: 0;
+        box-shadow: none;
     }
 
-    .message-content {
-        max-width: 85%;
+    .chat-header {
+        padding: 12px 16px;
+    }
+
+    .header-info h1 {
+        font-size: 1rem;
     }
 
     .chat-messages {
-        padding: 15px;
+        padding: 12px;
+    }
+
+    .message {
+        margin-bottom: 12px;
+    }
+
+    .message-content {
+        max-width: 90%;
     }
 
     .chat-input-container {
-        padding: 15px;
+        padding: 10px 12px;
+    }
+
+    .input-wrapper {
+        padding: 5px 12px;
+        gap: 8px;
+        border-radius: 20px;
+    }
+
+    #messageInput {
+        font-size: 16px;
+    }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 360px) {
+    .message-avatar {
+        display: none;
+    }
+
+    .message.bot .message-content,
+    .message.user .message-content {
+        margin: 0;
+    }
+
+    .header-actions {
+        gap: 5px;
     }
 }

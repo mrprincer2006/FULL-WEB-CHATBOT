@@ -765,7 +765,7 @@ class HoliChatBot {
         link.href = canvas.toDataURL();
         link.click();
         
-        this.addMessage("📥 Your Holi sticker has been downloaded! Share it on Instagram with #Holi2024!", 'bot');
+        this.addMessage("📥 Your Holi sticker has been downloaded! Share it on Instagram with #Holi2026!", 'bot');
     }
 
     handleQuickAction(action) {

@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Chatbot</title>
+    <title>🎨 Holi Festival Chatbot - Celebrate the Festival of Colors!</title>
+    <meta name="description" content="Chat with our AI assistant about Holi festival history, traditions, and generate colorful Instagram stickers!">
+    <meta name="keywords" content="Holi, Festival of Colors, Chatbot, Instagram Stickers, Holi History">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -15,34 +17,46 @@
         <div class="chat-container">
             <header class="chat-header">
                 <div class="header-content">
-                    <div class="bot-avatar">
-                        <i class="fas fa-robot"></i>
+                    <div class="bot-avatar holi-avatar">
+                        <i class="fas fa-palette"></i>
                     </div>
                     <div class="header-info">
-                        <h1>AI Assistant</h1>
+                        <h1 class="holi-title">Holi Festival Assistant</h1>
                         <span class="status-indicator">
                             <span class="status-dot"></span>
-                            Online
+                            Celebrating Colors! 🎨
                         </span>
                     </div>
                     <div class="header-actions">
                         <button class="action-btn" id="clearChatBtn" title="Clear Chat">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-broom"></i>
+                        </button>
+                        <button class="action-btn" id="stickerBtn" title="Generate Holi Sticker">
+                            <i class="fas fa-camera"></i>
                         </button>
                         <button class="action-btn" id="themeToggle" title="Toggle Theme">
                             <i class="fas fa-moon"></i>
                         </button>
                     </div>
                 </div>
+                <div class="holi-banner">
+                    <div class="color-splash"></div>
+                    <div class="festival-wishes">🎉 Happy Holi 2024! 🎉</div>
+                </div>
             </header>
 
             <main class="chat-messages" id="chatMessages">
                 <div class="welcome-message">
-                    <div class="bot-avatar">
-                        <i class="fas fa-robot"></i>
+                    <div class="bot-avatar holi-avatar">
+                        <i class="fas fa-palette"></i>
                     </div>
                     <div class="message-content">
-                        <p>Hello! I'm your AI assistant. How can I help you today?</p>
+                        <p>🎨 Welcome to your Holi Festival Assistant! I'm here to share the vibrant history, traditions, and stories of Holi. Ask me anything about the Festival of Colors or let me help you create amazing Instagram stickers to share the joy!</p>
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-action="history">📚 Holi History</button>
+                            <button class="quick-btn" data-action="traditions">🎉 Traditions</button>
+                            <button class="quick-btn" data-action="sticker">📸 Create Sticker</button>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -50,9 +64,9 @@
             <footer class="chat-input-container">
                 <div class="input-wrapper">
                     <button class="attachment-btn" id="attachmentBtn" title="Attach File">
-                        <i class="fas fa-paperclip"></i>
+                        <i class="fas fa-image"></i>
                     </button>
-                    <textarea id="messageInput" placeholder="Type your message..." rows="1" maxlength="2000"></textarea>
+                    <textarea id="messageInput" placeholder="Ask me about Holi history, traditions, or type 'sticker' to create one! 🎨" rows="1" maxlength="2000"></textarea>
                     <div class="input-actions">
                         <button class="mic-btn" id="micBtn" title="Voice Input">
                             <i class="fas fa-microphone"></i>
@@ -72,11 +86,118 @@
 
         <footer class="footer">
             <div class="footer-content">
-                <span class="footer-heart">❤️</span>
+                <span class="footer-heart">🎨</span>
                 <p class="footer-text">MADE BY <span class="highlight">PRINCE RAJ</span></p>
-                <span class="footer-heart">❤️</span>
+                <span class="footer-heart">🎨</span>
             </div>
         </footer>
+
+        <!-- Sticker Generator Modal -->
+        <div class="modal" id="stickerModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🎨 Create Your Holi Instagram Sticker</h3>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="sticker-workspace">
+                        <div class="canvas-container">
+                            <canvas id="stickerCanvas" width="400" height="400"></canvas>
+                            <div class="canvas-overlay">
+                                <div class="sticker-preview-label">Live Preview</div>
+                            </div>
+                        </div>
+                        
+                        <div class="sticker-controls">
+                            <!-- Text Input Section -->
+                            <div class="control-section">
+                                <label class="control-label">📝 Your Holi Message</label>
+                                <div class="text-input-wrapper">
+                                    <input type="text" id="stickerText" placeholder="Enter your Holi message!" maxlength="50">
+                                    <div class="char-counter">0/50</div>
+                                </div>
+                            </div>
+
+                            <!-- Color Selection -->
+                            <div class="control-section">
+                                <label class="control-label">🎨 Choose Your Colors</label>
+                                <div class="color-palette">
+                                    <button class="color-btn active" data-color="#FF69B4" style="background: #FF69B4" title="Hot Pink"></button>
+                                    <button class="color-btn" data-color="#FF6347" style="background: #FF6347" title="Tomato Red"></button>
+                                    <button class="color-btn" data-color="#FFD700" style="background: #FFD700" title="Golden Yellow"></button>
+                                    <button class="color-btn" data-color="#32CD32" style="background: #32CD32" title="Lime Green"></button>
+                                    <button class="color-btn" data-color="#9370DB" style="background: #9370DB" title="Medium Purple"></button>
+                                    <button class="color-btn" data-color="#FF1493" style="background: #FF1493" title="Deep Pink"></button>
+                                    <button class="color-btn" data-color="#00CED1" style="background: #00CED1" title="Dark Turquoise"></button>
+                                    <button class="color-btn" data-color="#FF8C00" style="background: #FF8C00" title="Dark Orange"></button>
+                                </div>
+                            </div>
+
+                            <!-- Pattern Selection -->
+                            <div class="control-section">
+                                <label class="control-label">✨ Background Pattern</label>
+                                <div class="pattern-selector">
+                                    <button class="pattern-btn active" data-pattern="confetti">
+                                        <span class="pattern-icon">🎊</span>
+                                        <span>Confetti</span>
+                                    </button>
+                                    <button class="pattern-btn" data-pattern="splash">
+                                        <span class="pattern-icon">💦</span>
+                                        <span>Splash</span>
+                                    </button>
+                                    <button class="pattern-btn" data-pattern="radial">
+                                        <span class="pattern-icon">🌈</span>
+                                        <span>Radial</span>
+                                    </button>
+                                    <button class="pattern-btn" data-pattern="hearts">
+                                        <span class="pattern-icon">❤️</span>
+                                        <span>Hearts</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Font Style -->
+                            <div class="control-section">
+                                <label class="control-label">🔤 Font Style</label>
+                                <div class="font-selector">
+                                    <button class="font-btn active" data-font="Poppins">Modern</button>
+                                    <button class="font-btn" data-font="Dancing Script">Script</button>
+                                    <button class="font-btn" data-font="Arial">Classic</button>
+                                    <button class="font-btn" data-font="Comic Sans MS">Fun</button>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <button class="generate-btn" id="generateSticker">
+                                    <span class="btn-icon">🎨</span>
+                                    Generate Sticker
+                                </button>
+                                <button class="download-btn" id="downloadSticker">
+                                    <span class="btn-icon">📥</span>
+                                    Download for Instagram
+                                </button>
+                                <button class="reset-btn" id="resetSticker">
+                                    <span class="btn-icon">🔄</span>
+                                    Reset
+                                </button>
+                            </div>
+
+                            <!-- Quick Templates -->
+                            <div class="control-section">
+                                <label class="control-label">⚡ Quick Templates</label>
+                                <div class="template-buttons">
+                                    <button class="template-btn" data-template="happy">Happy Holi!</button>
+                                    <button class="template-btn" data-template="colors">Rang Barse!</button>
+                                    <button class="template-btn" data-template="love">Holi Love</button>
+                                    <button class="template-btn" data-template="fun">Color Fun</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
